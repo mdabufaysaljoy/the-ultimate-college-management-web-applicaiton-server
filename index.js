@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 app.use('/users',userRoutes)
 
 //? all notices related apis
-app.use("/all-notices", noticeRoutes);
+app.use("/notices", noticeRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

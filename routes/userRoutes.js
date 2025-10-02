@@ -6,9 +6,20 @@ const { ObjectId } = require("mongodb");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 
 router.get("/", verifyToken, verifyAdmin, async (req, res, next) => {
+  let { page, limit,sortByRole } = req.query;
+  page = parseInt(page) || 1;
+  limit = parseInt(limit) || 5;
+  const toSkip = (page - 1) * limit;
+  let filter = {};
+  if (sortByRole) {
+    filter.role = sortByRole;
+  }
   try {
-    const allUsers = await User.find();
-    res.send(allUsers);
+    const allUsers = await User.find(filter).skip(toSkip).limit(limit);
+    const totalDocs = await User.countDocuments(filter);
+    const pageCount = Math.ceil(totalDocs / limit);
+    // console.log(totalDocs)
+    res.send({allUsers,pageCount});
   } catch (error) {
     next(error);
   }

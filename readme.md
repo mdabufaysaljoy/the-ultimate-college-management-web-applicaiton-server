@@ -1,1 +1,1 @@
-# The Ultimate College Management Web Application
+# The Ultimate College Management Web Application Server
